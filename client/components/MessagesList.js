@@ -2,18 +2,35 @@ import React, { Component } from 'react';
 import Message from './Message';
 import NewMessageEntry from './NewMessageEntry';
 import axios from 'axios';
+import store from '../store';
+import gotMessagesFromServer from '../store';
 
 export default class MessagesList extends Component {
 
   constructor () {
     super();
-    this.state = { messages: [] };
+    this.state = store.getState();
   }
 
   componentDidMount () {
     axios.get('/api/messages')
       .then(res => res.data)
-      .then(messages => this.setState({ messages }));
+      .then(messages => {
+        // this.setState({ messages })
+        const action = gotMessagesFromServer(messages)
+        store.dispatch(action)
+      });
+
+    this.unsubscribe = store.subscribe(() =>  this.setState(store.getState()));
+    // like a regular magazeine, we need to unsubscribe. 
+    //establaishes a listener, 
+    // accepts a callback
+    //return a function that will remove the event listener, if we invoke it. 
+
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render () {
