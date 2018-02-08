@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import store from "../store.js";
 import axios from 'axios';
+import store, { gotMessagesFromServer, gotNewMessageFromServer, writeMessage } from '../store';
 
 // These values are all hardcoded...for now!
 // Soon, we'll fetch them from the server!
@@ -19,13 +19,14 @@ export default class ChannelList extends Component {
   }
 
   componentDidMount () {
-    axios.get('/api/channels')
-      .then(res => res.data)
-      .then(channels => {
-        // this.setState({ channels })
-        const action = gotNewMessagesFromServer(channels)
-        store.dispatch(action)
-      });
+    // axios.get('/api/channels')
+    //   .then(res => res.data)
+    //   .then(channels => {
+    //     console.log("channels", channels)
+    //     // this.setState({ channels })
+    //     const action = gotMessagesFromServer(channels)
+    //     store.dispatch(action)
+    //   });
 
     this.unsubscribe = store.subscribe(() =>  this.setState(store.getState()));
   }

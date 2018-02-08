@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import socket from '../socket'
-import store from "../store"
+import store, { gotMessagesFromServer, gotNewMessageFromServer, writeMessage } from '../store';
 
 export default class NewMessageEntry extends Component {
 
@@ -24,6 +24,7 @@ export default class NewMessageEntry extends Component {
   changeHandler(event){
     const action = writeMessage(event.target.value)
     store.dispatch(action)
+    console.log("store// this should have this.state.newMessageEntry", this.state.newMessageEntry)
   }
 
   submitHandler(event){
@@ -39,16 +40,12 @@ export default class NewMessageEntry extends Component {
       const action = gotNewMessageFromServer(message)
       store.dispatch(action)
       socket.emit('new-message', message)
-    }
-    ) 
-
-
-
+    }) 
   }
 
   render () {
     return (
-      <form id="new-message-form">
+      <form id="new-message-form" onSubmit={this.submitHandler}>
         <div className="input-group input-group-lg">
           <input
             className="form-control"

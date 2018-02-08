@@ -1,7 +1,8 @@
 import React from 'react';
 
 export default function Message (props) {
-
+  console.log("entered the message component")
+  console.log("props", props)
   const message = props.message;
 
   return (

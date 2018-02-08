@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import Message from './Message';
 import NewMessageEntry from './NewMessageEntry';
 import axios from 'axios';
-import store from '../store';
-import gotMessagesFromServer from '../store';
-import gotNewMessagesFromServer from '../store';
-import writeMessages from '../store';
+import store, { gotMessagesFromServer, gotNewMessageFromServer, writeMessage } from '../store';
 
 export default class MessagesList extends Component {
 
@@ -19,7 +16,7 @@ export default class MessagesList extends Component {
       .then(res => res.data)
       .then(messages => {
         // this.setState({ messages })
-        const action = gotNewMessagesFromServer(messages)
+        const action = gotMessagesFromServer(messages)
         store.dispatch(action)
       });
 
@@ -35,13 +32,23 @@ export default class MessagesList extends Component {
   render () {
     const channelId = Number(this.props.match.params.channelId); // because it's a string "1", not a number!
     const messages = this.state.messages;
+    // console.log("channelId", channelId)
     const filteredMessages = messages.filter(message => message.channelId === channelId);
-
+    console.log("filteredMessages", filteredMessages)
     return (
       <div>
-        <ul className="media-list">
-          { filteredMessages.map(message => <Message message={message} key={message.id} />) }
-        </ul>
+     
+          { 
+            filteredMessages.map(message => 
+                  <ul className="media-list">
+                    <Message message={message} key={message.id} />
+                  </ul>
+                )
+          }
+              
+          
+         
+        
         <NewMessageEntry channelId={ channelId }/>
       </div>
     );
