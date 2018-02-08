@@ -22,11 +22,8 @@ export default class MessagesList extends Component {
       });
 
     this.unsubscribe = store.subscribe(() =>  this.setState(store.getState()));
-    // like a regular magazeine, we need to unsubscribe. 
-    //establaishes a listener, 
-    // accepts a callback
-    //return a function that will remove the event listener, if we invoke it. 
 
+    //return a function that will remove the event listener, if we invoke it. 
   }
 
   componentWillUnmount() {
@@ -34,7 +31,6 @@ export default class MessagesList extends Component {
   }
 
   render () {
-
     const channelId = Number(this.props.match.params.channelId); // because it's a string "1", not a number!
     const messages = this.state.messages;
     const filteredMessages = messages.filter(message => message.channelId === channelId);
@@ -44,7 +40,7 @@ export default class MessagesList extends Component {
         <ul className="media-list">
           { filteredMessages.map(message => <Message message={message} key={message.id} />) }
         </ul>
-        <NewMessageEntry />
+        <NewMessageEntry channelId={ channelId }/>
       </div>
     );
   }
