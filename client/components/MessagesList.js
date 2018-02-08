@@ -4,6 +4,8 @@ import NewMessageEntry from './NewMessageEntry';
 import axios from 'axios';
 import store from '../store';
 import gotMessagesFromServer from '../store';
+import gotNewMessagesFromServer from '../store';
+import writeMessages from '../store';
 
 export default class MessagesList extends Component {
 
@@ -17,7 +19,7 @@ export default class MessagesList extends Component {
       .then(res => res.data)
       .then(messages => {
         // this.setState({ messages })
-        const action = gotMessagesFromServer(messages)
+        const action = gotNewMessagesFromServer(messages)
         store.dispatch(action)
       });
 

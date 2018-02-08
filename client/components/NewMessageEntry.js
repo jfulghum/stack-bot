@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import socket from '../socket'
+import store from "../store"
 
 export default class NewMessageEntry extends Component {
 

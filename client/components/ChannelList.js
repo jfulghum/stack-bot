@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import store from "../store.js";
+import axios from 'axios';
 
 // These values are all hardcoded...for now!
 // Soon, we'll fetch them from the server!
@@ -22,7 +23,7 @@ export default class ChannelList extends Component {
       .then(res => res.data)
       .then(channels => {
         // this.setState({ channels })
-        const action = gotchannelsFromServer(channels)
+        const action = gotNewMessagesFromServer(channels)
         store.dispatch(action)
       });
 
@@ -34,6 +35,7 @@ export default class ChannelList extends Component {
   }
 
   render () {
+    // console.log("this.store", this.store)
     return (
       <ul>
         <li>
@@ -50,7 +52,7 @@ export default class ChannelList extends Component {
         <li>
           <NavLink to={RANDOM_CHANNEL} activeClassName="active">
             <span># generally_speaking</span>
-            <span className="badge"> {this.store.messages.filter(message => message.channelId === 1).length } </span>
+            <span className="badge"> {this.state.messages.filter(message => message.channelId === 1).length } </span>
           </NavLink>
         </li>
         <li>
